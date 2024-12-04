@@ -20,6 +20,9 @@ const Handlebars = require('handlebars')
 const fastifyStatic = require('@fastify/static')
 const fastifyEnv = require('@fastify/env')
 const config = require('./config/conf.js')
+const fp = require('fastify-plugin')
+// const mysql = require('@fastify/mysql')
+
 // Pass --options via CLI arguments in command to enable these options.
 const options = {}
 
@@ -42,6 +45,27 @@ module.exports = async function (fastify, opts) {
     dir: path.join(__dirname, 'routes'),
     options: Object.assign({}, opts)
   })
+
+// mysql connect start
+
+  fastify.register(require('@fastify/mysql'), {
+    connectionString: 'mysql://wl_u:wl_p@localhost/wl'
+  })
+  fastify.mysql.getConnection(onConnect)
+
+  function onConnect (err, client) {
+    if (err) return reply.send(err)
+
+    client.query(
+      'SELECT id, username, hash, salt FROM users WHERE id=?', [req.params.id],
+      function onResult (err, result) {
+        client.release()
+        reply.send(err || result)
+      }
+    )
+  }
+
+// mysql connect
 
   // Add View Engine
   fastify.register(require("@fastify/view"), {
@@ -84,6 +108,7 @@ fastify.listen({ port: 4040 }, function (err, address) {
     fastify.log.error(err)
     process.exit(1)
   } else {
+    console.log(`server listening on ${fastify.server.address().port}`)
   console.log(`Server start ${config.PORT}`)
   console.log(err)
 }
