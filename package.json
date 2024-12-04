@@ -9,15 +9,19 @@
   "scripts": {
     "test": "node --test test/**/*.test.js",
     "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "dev1": "fastify start -w -l info -P app.js",
+    "dev": "fastify start app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@fastify/autoload": "^6.0.0",
+    "@fastify/cookie": "^11.0.1",
     "@fastify/env": "^5.0.1",
     "@fastify/mysql": "^5.0.1",
+    "@fastify/oauth2": "^8.1.0",
+    "@fastify/passport": "^3.0.1",
     "@fastify/sensible": "^6.0.0",
     "@fastify/static": "^8.0.3",
     "@fastify/view": "^10.0.1",

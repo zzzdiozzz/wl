@@ -79,12 +79,13 @@ module.exports.options = options
 
 
 // Run the server!
-fastify.listen({ host: '127.0.0.1', port: '4444' }, function (err, address) {
+fastify.listen({ port: 4040 }, function (err, address) {
   if (err) {
     fastify.log.error(err)
     process.exit(1)
   } else {
   console.log(`Server start ${config.PORT}`)
+  console.log(err)
 }
   // Server is now listening on ${address}
 })
