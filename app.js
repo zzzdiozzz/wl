@@ -1,16 +1,14 @@
 'use strict'
-
 // import Fastify from 'fastify'
 // const fastify = require('fastify')()
-
 // const fastify = Fastify({
 //   logger: true
 // })
-
 // CommonJs
 const fastify = require('fastify')({
   logger: true
 })
+
 
 
 const path = require('node:path')
@@ -21,8 +19,8 @@ const fastifyStatic = require('@fastify/static')
 const fastifyEnv = require('@fastify/env')
 const config = require('./config/conf.js')
 const fp = require('fastify-plugin')
-// const mysql = require('@fastify/mysql')
-
+const fastifyMysql, { MySQLRowDataPacket } from '@fastify/mysql'
+const app = fastify()
 // Pass --options via CLI arguments in command to enable these options.
 const options = {}
 
@@ -48,23 +46,41 @@ module.exports = async function (fastify, opts) {
 
 // mysql connect start
 
-  fastify.register(require('@fastify/mysql'), {
-    connectionString: 'mysql://wl_u:wl_p@localhost/wl'
-  })
-  fastify.mysql.getConnection(onConnect)
+  // fastify.register(require('@fastify/mysql'), {
+  //   connectionString: 'mysql://wl_u:wl_p@localhost/wl'
+  // })
 
-  function onConnect (err, client) {
-    if (err) return reply.send(err)
+  app.register(fastifyMysql, {
+    connectionString: 'mysql://wl_u:wl_p@localhost/wl',
+  });
 
-    client.query(
-      'SELECT id, username, hash, salt FROM users WHERE id=?', [req.params.id],
-      function onResult (err, result) {
-        client.release()
-        reply.send(err || result)
-      }
+
+  //async (req, reply) => {
+    const connection =  fastify.mysql.getConnection()
+    const [rows, fields] =  connection.query(
+      'SELECT * FROM users',
     )
-  }
+    connection.release()
+     console.log('Test'+rows[1])
+  //}
 
+
+  //fastify.mysql.getConnection(onConnect)
+
+  // function onConnect (err, client) {
+  //   if (err) return reply.send(err)
+
+  //     const [rows, fields] =  connection.query(
+  //    // 'SELECT id, username, hash, salt FROM users WHERE id=?', [req.params.id],
+  //    'SELECT * FROM users',
+  //     function onResult (err, result) {
+  //       client.release()
+  //       reply.send(err || result)
+  //     }
+  //   )
+  //   console.log('Test' + fields[1])  
+  // }
+  
 // mysql connect
 
   // Add View Engine
