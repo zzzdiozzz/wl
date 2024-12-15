@@ -1,10 +1,4 @@
 'use strict'
-// import Fastify from 'fastify'
-// const fastify = require('fastify')()
-// const fastify = Fastify({
-//   logger: true
-// })
-// CommonJs
 const fastify = require('fastify')({
   logger: true
 })
@@ -19,8 +13,9 @@ const fastifyStatic = require('@fastify/static')
 const fastifyEnv = require('@fastify/env')
 const config = require('./config/conf.js')
 const fp = require('fastify-plugin')
-const fastifyMysql, { MySQLRowDataPacket } from '@fastify/mysql'
-const app = fastify()
+const fastifySql = require('@fastify/mysql')
+// const fastifySql, { MySQLRowDataPacket } from '@fastify/mysql'
+//const app = fastify()
 // Pass --options via CLI arguments in command to enable these options.
 const options = {}
 
@@ -50,37 +45,13 @@ module.exports = async function (fastify, opts) {
   //   connectionString: 'mysql://wl_u:wl_p@localhost/wl'
   // })
 
-  app.register(fastifyMysql, {
+  fastify.register(fastifySql, {
+    promise: true,
     connectionString: 'mysql://wl_u:wl_p@localhost/wl',
+    
   });
 
 
-  //async (req, reply) => {
-    const connection =  fastify.mysql.getConnection()
-    const [rows, fields] =  connection.query(
-      'SELECT * FROM users',
-    )
-    connection.release()
-     console.log('Test'+rows[1])
-  //}
-
-
-  //fastify.mysql.getConnection(onConnect)
-
-  // function onConnect (err, client) {
-  //   if (err) return reply.send(err)
-
-  //     const [rows, fields] =  connection.query(
-  //    // 'SELECT id, username, hash, salt FROM users WHERE id=?', [req.params.id],
-  //    'SELECT * FROM users',
-  //     function onResult (err, result) {
-  //       client.release()
-  //       reply.send(err || result)
-  //     }
-  //   )
-  //   console.log('Test' + fields[1])  
-  // }
-  
 // mysql connect
 
   // Add View Engine
