@@ -13,9 +13,14 @@ const fastifyStatic = require('@fastify/static')
 const fastifyEnv = require('@fastify/env')
 const config = require('./config/conf.js')
 const fp = require('fastify-plugin')
+<<<<<<< HEAD
 const fastifySql = require('@fastify/mysql')
 // const fastifySql, { MySQLRowDataPacket } from '@fastify/mysql'
 //const app = fastify()
+=======
+// const fastifyMysql, { MySQLRowDataPacket } from '@fastify/mysql'
+const fastifySql = require('@fastify/mysql')
+>>>>>>> 127b5d7 (temporaly)
 // Pass --options via CLI arguments in command to enable these options.
 const options = {}
 
@@ -46,12 +51,21 @@ module.exports = async function (fastify, opts) {
   // })
 
   fastify.register(fastifySql, {
+<<<<<<< HEAD
     promise: true,
+=======
+>>>>>>> 127b5d7 (temporaly)
     connectionString: 'mysql://wl_u:wl_p@localhost/wl',
     
   });
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 127b5d7 (temporaly)
 // mysql connect
 
   // Add View Engine

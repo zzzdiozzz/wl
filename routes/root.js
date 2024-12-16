@@ -5,6 +5,7 @@
 module.exports = async function (fastify, opts) {
   fastify.get('/', async (req, rep) => {
     return rep.viewAsync('./views/index.hbs', { title: 'About Us', message: 'Welcome to the About Page!' });
+<<<<<<< HEAD
   }),
 
 
@@ -36,3 +37,24 @@ fastify.get('/db', async (req, rep) => {
 
 
 }
+=======
+  })
+
+
+
+fastify.get('/db', async (req, rep) =>{
+  const users = await fastify.mysql.query(
+    'SELECT *  FROM users', 
+//    function onResult (err, result) {
+//      rep.send(err || result)
+//return console.log(row[1])
+//    }
+  )
+    let title = 'Users'
+    let message = 'users list'
+  return rep.viewAsync('./views/users.hbs', { title, message, users});
+})
+
+
+}
+>>>>>>> 127b5d7 (temporaly)
