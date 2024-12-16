@@ -1,9 +1,8 @@
 <h1>Selected</h1>
 Title: {{title}}<br>
 Message: {{message}}
-  <p>Количество записей: {{users.length}}</p>
+  <p>Кількість користувачів: {{users.length}}</p>
 <ol>
-{{#if users}}Ex.:    {{users}}{{/if}}
     {{#each this.users}}
       <li>
         <strong>ID:</strong> {{this.uid}} <br>

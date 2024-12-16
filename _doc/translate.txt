@@ -1,0 +1,4 @@
+dream list		список мрій
+goal list		список цілей
+goal			мета
+wish			бажання
